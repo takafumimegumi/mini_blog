@@ -12,7 +12,7 @@ abstract class Controller {
     protected $auth_actions = [];
 
     public function __construct($application) {
-        //（例）'AccountContoroller' → 'account'
+        // （例）'AccountContoroller' → 'account'
         $this->controller_name = strtolower(substr(get_class($this), 0, -10));
 
         $this->application = $application;
@@ -129,7 +129,7 @@ abstract class Controller {
 
         // 指定した値を配列で検索し見つかって、キー(添字)が返ってきた場合の処理
         if (false !== ($pos = array_search($token, $tokens, true))) {
-            unset($token[$pos]);
+            unset($tokens[$pos]);
             $this->session->set($key, $tokens);
 
             return true;

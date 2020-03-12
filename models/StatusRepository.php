@@ -5,7 +5,7 @@ class StatusRepository extends DbRepository {
     public function insert($user_id, $body) {
         $now = new Datetime();
 
-        $sql = "insert into status (user_id, body, created_at) values (:user_id, :body, :created_at)";
+        $sql = "insert into status(user_id, body, created_at) values(:user_id, :body, :created_at)";
 
         $this->execute($sql, [
             ':user_id' => $user_id,

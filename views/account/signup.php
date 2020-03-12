@@ -26,7 +26,7 @@ $this->setLayoutVar('title', 'アカウント登録');
             </tr>
             <tr>
                 <th>パスワード</th>
-                <td><input type="text" name="password" value="<?= $this->escape($password); ?>"></td>
+                <td><input type="password" name="password" value="<?= $this->escape($password); ?>"></td>
             </tr>
         </tbody>
     </table>
