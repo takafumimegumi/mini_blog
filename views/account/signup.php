@@ -10,15 +10,23 @@ $this->setLayoutVar('title', 'アカウント登録');
     <!-- トークンをセットしCSRF対策 -->
     <input type="hidden" name="_token" value="<?= $this->escape($_token); ?>">
 
+    <?php if (isset($errors) && count($errors) > 0): ?>
+    <ul class="error_list">
+        <?php foreach($errors as $error): ?>
+        <li><?= $this->escape($error); ?></li>
+        <?php endforeach; ?>
+    </ul>
+    <?php endif; ?>
+
     <table>
         <tbody>
             <tr>
                 <th>ユーザID</th>
-                <td><input type="text" name="user_name" value=""></td>
+                <td><input type="text" name="user_name" value="<?= $this->escape($user_name); ?>"></td>
             </tr>
             <tr>
                 <th>パスワード</th>
-                <td><input type="text" name="password" value=""></td>
+                <td><input type="text" name="password" value="<?= $this->escape($password); ?>"></td>
             </tr>
         </tbody>
     </table>
