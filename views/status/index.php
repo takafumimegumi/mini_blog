@@ -9,7 +9,9 @@ $this->setLayoutVar('title', 'ホーム');
 <form action="<?= $base_url; ?>/status/post" method="post">
     <input type="hidden" name="token" value="<?= $this->escape($_token); ?>">
 
-    <?php // todo エラー処理 ?>
+    <?php if (isset($errors) && count($errors) > 0): ?>
+    <?= $this->render('errors', ['errors' => $errors]); ?>
+    <?php endif; ?>
 
     <textarea name="body" cols="60" rows="2"><?= $this->escape($body) ?></textarea>
 
@@ -18,14 +20,6 @@ $this->setLayoutVar('title', 'ホーム');
 
 <div id="statuses">
     <?php foreach ($statuses as $status): ?>
-    <div class="status">
-        <div class="status_content">
-            <?= $this->escape($status['user_name']); ?>
-            <?= $this->escape($status['body']); ?>
-        </div>
-        <div>
-            <?= $this->escape($status['created_at']); ?>
-        </div>
-    </div>
+    <?= $this->render('status/status', ['status' => $status]); ?>
     <?php endforeach; ?>
 </div>
