@@ -2,6 +2,8 @@
 
 class StatusController extends Controller {
 
+    protected $auth_actions = ['index', 'post'];
+
     public function indexAction() {
         // ユーザー情報を$_SESSION['user']から取得
         $user = $this->session->get('user');
@@ -64,6 +66,18 @@ class StatusController extends Controller {
         return $this->render([
             'user' => $user,
             'statuses' => $statuses,
+        ]);
+    }
+
+    public function showAction($params) {
+        $status = $this->db_manager->get('Status')->fetchPersonalArchiveById($params['id']);
+        
+        if (!$status) {
+            $this->forward404();
+        }
+
+        return $this->render([
+            'status' => $status
         ]);
     }
 

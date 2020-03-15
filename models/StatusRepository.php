@@ -44,4 +44,18 @@ class StatusRepository extends DbRepository {
         ]);
     }
 
+    public function fetchPersonalArchiveById($id) {
+        $sql = "
+            select a.*, u.user_name
+                from status as a
+            left join user as u
+                on a.user_id = u.id
+            where a.id = :id
+        ";
+
+        return $this->fetch($sql, [
+            ':id' => $id,
+        ]);
+    }
+
 }

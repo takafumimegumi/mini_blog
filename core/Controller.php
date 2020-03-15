@@ -32,7 +32,7 @@ abstract class Controller {
             $this->forward404();
         }
 
-        // ログインが必要なアクションかつ未ログインである場合の処理
+        // ログインが必要なアクションの指定がある、かつ未ログインである場合の処理
         if ($this->needsAuthentication($action) && !$this->session->isAuthenticated()) {
             throw new UnauthorizedActionException();
         }
