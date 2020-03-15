@@ -58,7 +58,9 @@ abstract class Controller {
     }
 
     // ビューファイルの読み込み処理をラッピングしたメソッド
+    // 第1引数に指定した変数がビューファイル内で利用可能になる
     protected function render($variables = [], $template = null, $layout = 'layout') {
+        // これらの値(配列)もViewクラスのrenderメソッド内でarray_mergeされた後、変数展開されるので、ビューファイル内で利用可能
         $defaults = [
             'request' => $this->request,
             'base_url' => $this->request->getBaseUrl(),

@@ -122,7 +122,7 @@ abstract class Application {
 
     protected function findController($controller_class) {
         // 引数に指定されたクラスが存在しない場合
-        if (!class_exist($controller_class)) {
+        if (!class_exists($controller_class)) {
             // $controller_fileに引数に指定されたクラス名をファイル名に持つphpファイルを代入
             $controller_file = $this->getControllerDir() . '/' . $controller_class . '.php';
             // $controller_fileが読み込めない場合は処理を終了。読み込める場合は読み込む。
