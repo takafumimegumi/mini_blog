@@ -94,7 +94,7 @@ abstract class Application {
         } catch (HttpNotFoundException $e) {
             $this->render404Page($e);
         } catch (UnauthorizedActionException $e) {
-            // ログイン画面のコントローラとアクションは個別のアプリケーションで異なるため、必要に応じて$login_actionプロパティで再定義する
+            // ログイン処理におけるコントローラ名とアクション名は個別のアプリケーションによって異なるため、必要に応じて$login_actionプロパティで再定義する
             list($controller, $action) = $this->login_action;
             $this->runAction($controller, $action);
         }
