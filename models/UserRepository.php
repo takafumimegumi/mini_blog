@@ -2,9 +2,10 @@
 
 class UserRepository extends DbRepository {
 
-    public function insert($user_name, $password) {
+    public function insert($user_name, $password)
+    {
         $password = $this->hashPassword($password);
-        $now = new Datetime();
+        $now = new DateTime();
 
         $sql = "insert into user(user_name, password, created_at) values(:user_name, :password, :created_at)";
 
@@ -20,7 +21,7 @@ class UserRepository extends DbRepository {
     }
 
     public function fetchByUserName($user_name) {
-        $sql = "select * from user which user_name = :user_name";
+        $sql = "select * from user where user_name = :user_name";
 
         return $this->fetch($sql, [':user_name' => $user_name]);
     }
