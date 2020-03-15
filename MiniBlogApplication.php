@@ -10,7 +10,10 @@ class MiniBlogApplication extends Application {
 
     protected function registerRoutes() {
         return [
-
+            '/account'
+                => ['controller' => 'account', 'action' => 'index'],
+            '/account/:action'
+                => ['controller' => 'account'],
         ];
     }
 
