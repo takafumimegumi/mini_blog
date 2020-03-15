@@ -9,11 +9,11 @@ class UserRepository extends DbRepository {
 
         $sql = "insert into user(user_name, password, created_at) values(:user_name, :password, :created_at)";
 
-        $stmt = $this->execute($sql, array(
-            ':user_name'  => $user_name,
-            ':password'   => $password,
+        $stmt = $this->execute($sql, [
+            ':user_name' => $user_name,
+            ':password' => $password,
             ':created_at' => $now->format('Y-m-d H:i:s'),
-        ));
+        ]);
     }
 
     public function hashPassword($password) {
