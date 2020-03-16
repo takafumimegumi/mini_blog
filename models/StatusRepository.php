@@ -14,14 +14,18 @@ class StatusRepository extends DbRepository {
         ]);
     }
 
-    public function fetchAllPersonalArchivesByUserId($user_id) {
+    public function fetchAllArchivesByUserId($user_id) {
         $sql = "
             select a.*, u.user_name
                 from status as a
             left join user as u
                 on a.user_id = u.id
-            where u.id = :user_id
-                order by a.created_at desc
+            left join following as f
+                on a.user_id = f.following_id
+                    and f.user_id = :user_id
+            where f.user_id = :user_id
+                or u.id = :user_id
+            order by a.created_at desc
         ";
 
         return $this->fetchAll($sql, [
