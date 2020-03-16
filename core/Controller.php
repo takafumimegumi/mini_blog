@@ -23,10 +23,10 @@ abstract class Controller {
     }
 
     public function run($action, $params = []) {
-        //（例）signup
+        //（例1）signup （例2）user
         $this->action_name = $action;
 
-        //（例）signupAction
+        //（例1）signupAction （例2）userAction
         $action_method = $action . 'Action';
         if (!method_exists($this, $action_method)) {
             $this->forward404();
@@ -38,7 +38,8 @@ abstract class Controller {
         }
 
         // 可変関数の仕組みを使ってアクションを特定し、存在すれば実行
-        //（例）AccountController::signupAction
+        //（例）AccountController::signupAction(['controller' => 'account', '/account/signup', 'action' => 'signup', 'signup']);
+        //（例）StatusController::signupAction(['controller' => 'status', 'action' => 'user', '/user/taka', 'user_name' => 'taka', 'taka']);
         $content = $this->$action_method($params);
 
         return $content;

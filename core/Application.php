@@ -31,6 +31,7 @@ abstract class Application {
         $this->response = new Response();
         $this->session = new Session();
         $this->db_manager = new DbManager();
+        // Routerクラスのコンストラクタにルーティング定義配列を渡す
         $this->router = new Router($this->registerRoutes());
     }
 
@@ -78,18 +79,22 @@ abstract class Application {
 
     public function run() {
         try {
-            //（例）$params = ['controller' => 'account', 'action' => 'signup']
+            //（例1）$params = ['controller' => 'account', 'account/signup', 'action' => 'signup', 'signup']
+            //（例2）$params = ['controller' => 'status', 'action' => 'user', '/user/taka', 'user_name' => 'taka', 'taka']
             $params = $this->router->resolve($this->request->getPathInfo());
             if ($params === false) {
                 throw new HttpNotFoundException('No route found for ' . $this->request->getPathInfo());
             }
 
-            //（例）account
+            //（例1）account
+            //（例2）status
             $controller = $params['controller'];
-            //（例）signup
+            //（例1）signup
+            //（例2）user
             $action = $params['action'];
 
-            //（例）Application::runAction('account', 'signup', ['controller' => 'account', 'action' => 'signup']);
+            //（例1）Application::runAction('account', 'signup', ['controller' => 'account', 'account/signup', 'action' => 'signup', 'signup']);
+            //（例2）Application::runAction('status', 'user', ['controller' => 'status', 'action' => 'user', '/user/taka', 'user_name' => 'taka','taka']);
             $this->runAction($controller, $action, $params);
         } catch (HttpNotFoundException $e) {
             $this->render404Page($e);
@@ -103,7 +108,7 @@ abstract class Application {
     }
 
     public function runAction($controller_name, $action, $params = []) {
-        // 第一引数の文字列の最初の文字を大文字にし、連結する（例）AccountController
+        // 第一引数の文字列の最初の文字を大文字にし、連結する（例1）AccountController （例2）StatusController
         $controller_class = ucfirst($controller_name) . 'Controller';
 
         // コントローラが特定できたらインスタンス化して返す
@@ -113,8 +118,9 @@ abstract class Application {
             throw new HttpNotFoundException($controller_class . ' controller is not found.');
         }
 
-        //（例）AccountController->run('signup', ['controller' => 'account', 'action' => 'signup']);
         // runメソッドを実行して帰ってきたコンテンツを取得
+        //（例1）AccountController->run('signup', ['controller' => 'account', 'account/signup', 'action' => 'signup', 'signup']);
+        //（例2）StatusController->run('user', ['controller' => 'status', 'action' => 'user', '/user/taka', 'user_name' => 'taka', 'taka']);
         $content = $controller->run($action, $params);
         // Response::setContentで、コントローラのrunメソッドによる返り値(コンテンツ)をメッセージボディーにセット
         $this->response->setContent($content);
