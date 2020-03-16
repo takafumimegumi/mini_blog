@@ -61,11 +61,26 @@ class StatusController extends Controller {
             $this->forward404();
         }
 
+        // フォローしているかどうかの状態をboolで保持
+        $following = null;
+        // ログイン済みの場合
+        if ($this->session->isAuthenticated()) {
+            // セッションに格納されている自分のデータを取得
+            $my = $this->session->get('user');
+            // アクセスしたユーザの投稿一覧が自分のものじゃない場合
+            if ($my['id'] !== $user['id']) {
+                // フォローしてればtrue、していなければfalseが代入される
+                $following = $this->db_manager->get('Following')->isFollowing($my['id'], $user['id']);
+            }
+        }
+
         $statuses = $this->db_manager->get('Status')->fetchAllByUserId($user['id']);
 
         return $this->render([
             'user' => $user,
             'statuses' => $statuses,
+            'following' => $following,
+            '_token' => $this->generateCsrfToken('account/follow')
         ]);
     }
 
